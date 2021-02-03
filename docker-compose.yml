@@ -8,6 +8,7 @@ services:
     env_file: docker/vue-storefront/default.env
     environment:
       VS_ENV: dev
+      NODE_TLS_REJECT_UNAUTHORIZED: 0
     network_mode: host
     volumes:
       - './babel.config.js:/var/www/babel.config.js'
