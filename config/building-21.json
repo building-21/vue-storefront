@@ -3,7 +3,7 @@
 "host" : "0.0.0.0",
     "port": 3000,
     "protocol": "http",
-    "api": "api",
+    "api": "api-search-query",
     "devServiceWorker": false,
     "useHtmlMinifier": true,
     "htmlMinifierOptions": {
@@ -71,6 +71,9 @@
       "enabled": true
     }
   },
+  "quicklink": {
+    "enabled": false
+  },
   "initialResources": [
     {
       "filters": ["vsf-newsletter-modal", "vsf-languages-modal", "vsf-layout-empty", "vsf-layout-minimal", "vsf-order-confirmation", "vsf-search-panel"],
@@ -108,7 +111,7 @@
     "port": 8080
   },
   "api": {
-    "url": "http://localhost:8080",
+    "url": "http://localhost:8080/vsfapi/someinstance/",
     "saveBandwidthOverCache": true
   },
   "elasticsearch": {
@@ -277,8 +280,8 @@
       "filterFields": {},
       "breadcrumbFilterFields": {},
       "categoriesRootCategorylId": 2,
+      "categoriesDynamicPrefetch": false,
       "categoriesDynamicPrefetchLevel": 2,
-      "categoriesDynamicPrefetch": true,
       "validSearchOptionsFromRouteParams": [
         "url-key",
         "slug",
@@ -303,7 +306,7 @@
         "options",
         "tier_prices"
       ],
-      "loadByAttributeMetadata": false
+      "loadByAttributeMetadata": true
     },
     "productList": {
       "sort": "updated_at:desc",
@@ -546,8 +549,8 @@
   },
   "cart": {
     "thumbnails": {
-      "width": 150,
-      "height": 150
+      "width": 210,
+      "height": 300
     },
     "serverMergeByDefault": true,
     "serverSyncCanRemoveLocalItems": false,
@@ -657,8 +660,8 @@
       "height": 744
     },
     "thumbnails": {
-      "width": 310,
-      "height": 300
+      "width": 324,
+      "height": 489
     },
     "filterAggregationSize": {
       "default": 10,
@@ -808,7 +811,7 @@
     "contactAddress": "contributors@vuestorefront.io",
     "sendConfirmation": true
   },
-  "theme": "@vue-storefront/theme-default",
+  "theme": "@vue-storefront/theme-capybara",
   "analytics": {
     "id": false
   },
@@ -869,7 +872,7 @@
     }
   },
   "urlModule": {
-    "enableMapFallbackUrl": false,
+    "enableMapFallbackUrl": true,
     "endpoint": "/api/url",
     "map_endpoint": "/api/url/map"
   },
