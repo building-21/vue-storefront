@@ -111,7 +111,7 @@
     "port": 8080
   },
   "api": {
-    "url": "http://localhost:8080/vsfapi/someinstance/",
+    "url": "http://localhost/vsfapi/someinstance",
     "saveBandwidthOverCache": true
   },
   "elasticsearch": {
