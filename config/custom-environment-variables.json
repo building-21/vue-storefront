@@ -2,5 +2,8 @@
   "server": {
     "host": "BIND_HOST",
     "port": "BIND_PORT"
+  },
+  "api": {
+    "url": "BACKEND_API_URL_BASE"
   }
 }

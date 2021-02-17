@@ -1,0 +1,13 @@
+version: '2.0'
+services:
+  wiigo-prod:
+    # image: divante/vue-storefront:latest
+    build:
+      context: .
+      dockerfile: docker/wiigo-prod-image/Dockerfile
+    env_file: docker/vue-storefront/default.env
+    environment:
+      VS_ENV: prod
+    network_mode: host
+    ports:
+      - '3000:3000'
