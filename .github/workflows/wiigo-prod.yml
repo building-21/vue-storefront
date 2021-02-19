@@ -1,4 +1,4 @@
-name: Run VSF1 tests
+name: Build for wiigo
 
 on:
   push:
