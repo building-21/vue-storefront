@@ -10,3 +10,6 @@
 	path = src/themes/capybara
 	url = https://github.com/building-21/vsf-capybara.git
 	branch = master
+[submodule "src/modules/paypal"]
+	path = src/modules/paypal
+	url = https://github.com/building-21/vsf-payment-paypal.git

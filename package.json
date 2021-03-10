@@ -50,6 +50,7 @@
     "lerna": "lerna"
   },
   "dependencies": {
+    "@paypal/checkout-server-sdk": "^1.0.2",
     "@types/webpack": "^4.41",
     "@types/webpack-dev-server": "^3.10",
     "apollo-cache-inmemory": "^1.6.5",
@@ -74,6 +75,7 @@
     "localforage": "^1.7.2",
     "magento2-rest-client": "github:DivanteLtd/magento2-rest-client",
     "ms": "^2.1.2",
+    "paypal-nvp-api": "^2.0.0-rc1",
     "pm2": "^2.10.4",
     "proxy-polyfill": "^0.3.0",
     "redis-tag-cache": "^1.2.1",
