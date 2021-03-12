@@ -93,7 +93,7 @@
     "destPath": "static"
   },
   "seo": {
-    "useUrlDispatcher": true,
+    "useUrlDispatcher": false,
     "disableUrlRoutesPersistentCache": true,
     "defaultTitle": "Vue Storefront"
   },
@@ -739,10 +739,10 @@
   },
   "images": {
     "useExactUrlsNoProxy": false,
-    "baseUrl": "https://demo.vuestorefront.io/img/",
-    "useSpecificImagePaths": false,
+    "baseUrl": "https://enterpos.net/vsfapi/someinstance/api/images?url=",
+    "useSpecificImagePaths": true,
     "paths": {
-      "product": "/catalog/product"
+      "product": ""
     },
     "productPlaceholder": "/assets/placeholder.jpg"
   },
