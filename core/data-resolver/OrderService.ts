@@ -7,7 +7,7 @@ import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 
 const placeOrder = (order?: Order): Promise<Task> =>
   TaskQueue.execute({
-    url: 'http://localhost/vsfapi/javi/api/cart/create', // sync the order
+    url: 'http://localhost/vsfapi/javi/api/order', // sync the order
     payload: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
