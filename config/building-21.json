@@ -680,7 +680,7 @@
   },
   "orders": {
     "directBackendSync": true,
-    "endpoint": "/api/order",
+    "endpoint": "http://localhost/vsfapi/someinstance/api/order",
     "payment_methods_mapping": {
     },
     "offline_orders": {
