@@ -61,6 +61,7 @@ const actions: ActionTree<OrderState, RootState> = {
       orderHooksExecutors.afterPlaceOrder({ order, task })
       EventBus.$emit('order-after-placed', { order, confirmation: task.result })
       EventBus.$emit('notification-progress-stop')
+      await dispatch('cart/clear', { sync: false }, { root: true })
       return task
     }
 
