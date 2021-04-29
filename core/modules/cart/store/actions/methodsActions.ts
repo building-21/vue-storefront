@@ -5,6 +5,7 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { CartService } from '@vue-storefront/core/data-resolver'
 import { preparePaymentMethodsToSync, createOrderData, createShippingInfoData } from '@vue-storefront/core/modules/cart/helpers'
 import PaymentMethod from '../../types/PaymentMethod'
+import { getShippingMethods } from '@vue-storefront/core/modules/checkout/components/Shipping';
 
 const methodsActions = {
   async pullMethods ({ getters, dispatch }, { forceServerSync }) {
@@ -81,9 +82,12 @@ const methodsActions = {
         city: shippingDetails.city,
         region_code: shippingDetails.region_code ? shippingDetails.region_code : ''
       } : { country_id: storeView.tax.defaultCountry }
-
-      const { result } = await CartService.getShippingMethods(address)
+      // try {
+      const { result } = await CartService.getShippingMethods(address)// await CartService.getShippingMethods(address)
       await dispatch('updateShippingMethods', { shippingMethods: result })
+      // } catch (err) {
+      // Logger.debug('Unable to load shipping methods ' + err)()
+      // }
     } else {
       Logger.debug('Shipping methods does not need to be updated', 'cart')()
     }

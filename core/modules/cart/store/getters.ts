@@ -5,13 +5,18 @@ import RootState from '@vue-storefront/core/types/RootState'
 import AppliedCoupon from '../types/AppliedCoupon'
 import { onlineHelper, isServer, calcItemsHmac } from '@vue-storefront/core/helpers'
 import { calculateTotals } from '@vue-storefront/core/modules/cart/helpers'
+import { getShippingMethods } from '@vue-storefront/core/modules/checkout/components/Shipping';
+import { Logger } from '@vue-storefront/core/lib/logger'
 import config from 'config'
 
 const getters: GetterTree<CartState, RootState> = {
   getCartToken: state => state.cartServerToken,
   getLastSyncDate: state => state.cartServerLastSyncDate,
   getLastTotalsSyncDate: state => state.cartServerLastTotalsSyncDate,
-  getShippingMethod: state => state.shipping,
+  getShippingMethod (state, getters) {
+    debugger;
+    return state.shipping.length > 0 ? state.shipping : getters.getFirstShippingMethod
+  },
   getPaymentMethod: state => state.payment,
   getLastCartHash: state => state.cartItemsHash,
   getCurrentCartHash: state => calcItemsHmac(state.cartItems, state.cartServerToken),
@@ -23,10 +28,29 @@ const getters: GetterTree<CartState, RootState> = {
   isTotalsSyncEnabled: () => config.cart.synchronize_totals && onlineHelper.isOnline && !isServer,
   isCartConnected: state => !!state.cartServerToken,
   isCartSyncEnabled: () => config.cart.synchronize && onlineHelper.isOnline && !isServer,
-  getFirstShippingMethod: state => state.shipping instanceof Array ? state.shipping[0] : state.shipping,
+  getFirstShippingMethod (state) {
+    /* try {
+      const shipping = await getShippingMethods()
+      //shippingMethods.then((shipping) => {
+        return shipping instanceof Array ? shipping[0] : shipping
+      //});
+
+    } catch (err) {
+      Logger.debug('Unable to load shipping methods ' + err)()
+    } */
+    // Shipping.methods.getShippingMethod()
+    // debugger;
+    // this works
+    return state.shipping instanceof Array ? state.shipping[0] : state.shipping
+    // return Shipping.data().shippingMethods instanceof Array ? Shipping.data().shippingMethods[0] : Shipping.data().shippingMethods
+  },
   getFirstPaymentMethod: state => state.payment instanceof Array ? state.payment[0] : state.payment,
-  getTotals: ({ cartItems, platformTotalSegments }, getters) =>
-    (platformTotalSegments && onlineHelper.isOnline) ? platformTotalSegments : calculateTotals(getters.getFirstShippingMethod, getters.getFirstPaymentMethod, cartItems),
+  getTotals ({ cartItems, platformTotalSegments }, getters) {
+    // const shippingMethod = await getters.getFirstShippingMethod
+    // getters.getFirstShippingMethod.resolve().then((shippingMethod) => {
+    return (platformTotalSegments && onlineHelper.isOnline) ? platformTotalSegments : calculateTotals(getters.getShippingMethod, getters.getFirstPaymentMethod, cartItems)
+    // });
+  },
   getItemsTotalQuantity: ({ cartItems }) => config.cart.minicartCountType === 'items' ? cartItems.length : sumBy(cartItems, p => p.qty),
   getCoupon: ({ platformTotals }): AppliedCoupon | false =>
     !(platformTotals && platformTotals.hasOwnProperty('coupon_code')) ? false : { code: platformTotals.coupon_code, discount: platformTotals.discount_amount },

@@ -25,7 +25,29 @@ const getters: GetterTree<CheckoutState, RootState> = {
     getters.getPaymentMethods.filter((itm) =>
       (typeof itm !== 'object' || !itm.is_server_method)
     ),
-  getShippingMethods: state => state.shippingMethods,
+  getShippingMethods (state) {
+    /* state.shippingMethods = [
+      {
+        "method_title": "one",
+        "method_code": "one",
+        "carrier_code": "one",
+        "amount": 5,
+        "price_incl_tax": 6,
+        "default": true,
+        "offline": true
+      },
+      {
+        "method_title": "two",
+        "method_code": "two",
+        "carrier_code": "two",
+        "amount": 7,
+        "price_incl_tax": 8,
+        "default": false,
+        "offline": true
+      }
+    ] */
+    return state.shippingMethods
+  },
   getDefaultShippingMethod: state => state.shippingMethods.find(item => item.default)
 }
 

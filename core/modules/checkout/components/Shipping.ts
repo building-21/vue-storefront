@@ -1,7 +1,28 @@
 import { mapState, mapGetters } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import toString from 'lodash-es/toString'
+import { TaskQueue } from '@vue-storefront/core/lib/sync'
+import { Logger } from '@vue-storefront/core/lib/logger'
+import config from 'config';
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
+
+export const getShippingMethods = async (): Promise<any> => {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+  try {
+    const task = await TaskQueue.execute({
+      url: config.api.url + '/api/cart/shipping-methods',
+      payload: {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      },
+      mode: 'cors'
+      // silent: true
+    })
+    return task.result;
+  } catch (err) {
+    console.error('error', err)
+  }
+}
 
 export const Shipping = {
   name: 'Shipping',
@@ -22,6 +43,7 @@ export const Shipping = {
     this.$bus.$on('checkout-after-shippingset', this.onAfterShippingSet)
   },
   data () {
+    // debugger;
     return {
       isFilled: false,
       countries: Countries,
@@ -37,6 +59,7 @@ export const Shipping = {
         postcode: '',
         telephone: ''
       }
+      // shippingMethods: this.getShippingMethod()
     }
   },
   computed: {
@@ -140,17 +163,28 @@ export const Shipping = {
       this.changeCountry()
     },
     getShippingMethod () {
-      for (let i = 0; i < this.shippingMethods.length; i++) {
-        if (this.shippingMethods[i].method_code === this.shipping.shippingMethod) {
-          return {
-            method_title: this.shippingMethods[i].method_title,
-            amount: this.shippingMethods[i].amount
+      // debugger;
+      try {
+        // this.shippingMethods = await getShippingMethods()
+        // this.shippingMethods = this.shippingMethods.shippingMethods
+        // this.$store.checkout.shipping = this.shippingMethods
+        // debugger;
+        for (let i = 0; i < this.shippingMethods.length; i++) {
+          // debugger;
+          if (this.shippingMethods[i].method_code === this.shipping.shippingMethod) {
+            // debugger;
+            return {
+              method_title: this.shippingMethods[i].method_title,
+              amount: this.shippingMethods[i].amount
+            }
           }
         }
-      }
-      return {
-        method_title: '',
-        amount: ''
+        return {
+          method_title: '',
+          amount: ''
+        }
+      } catch (err) {
+        Logger.debug('Unable to load shipping methods ' + err)()
       }
     },
     getCountryName () {
@@ -166,11 +200,13 @@ export const Shipping = {
     },
     getCurrentShippingMethod () {
       let shippingCode = this.shipping.shippingMethod
+      console.log('shippingcode: ', shippingCode)
       let currentMethod = this.shippingMethods ? this.shippingMethods.find(item => item.method_code === shippingCode) : {}
       return currentMethod
     },
     changeShippingMethod () {
       let currentShippingMethod = this.getCurrentShippingMethod()
+      // debugger;
       if (currentShippingMethod) {
         this.shipping = Object.assign(this.shipping, { shippingCarrier: currentShippingMethod.carrier_code })
         this.$bus.$emit('checkout-after-shippingMethodChanged', {
@@ -182,6 +218,7 @@ export const Shipping = {
       }
     },
     notInMethods (method) {
+      // debugger;
       let availableMethods = this.shippingMethods
       if (availableMethods.find(item => item.method_code === method)) {
         return false

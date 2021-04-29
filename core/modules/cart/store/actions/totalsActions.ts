@@ -8,6 +8,7 @@ import {
   createShippingInfoData
 } from '@vue-storefront/core/modules/cart/helpers'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { getShippingMethods } from '@vue-storefront/core/modules/checkout/components/Shipping';
 
 const totalsActions = {
   async getTotals (context, { addressInformation, hasShippingInformation }) {
@@ -50,13 +51,14 @@ const totalsActions = {
     Logger.error(result, 'cart')()
   },
   async syncTotals ({ dispatch, getters, rootGetters }, payload: { forceServerSync: boolean, methodsData?: any } = { forceServerSync: false, methodsData: null }) {
+    debugger;
     const methodsData = payload ? payload.methodsData : null
     await dispatch('pullMethods', { forceServerSync: payload.forceServerSync })
 
     if (getters.canSyncTotals && (getters.isTotalsSyncRequired || payload.forceServerSync)) {
       const shippingMethodsData = methodsData || createOrderData({
         shippingDetails: rootGetters['checkout/getShippingDetails'],
-        shippingMethods: rootGetters['checkout/getShippingMethods'],
+        shippingMethods: await getShippingMethods(), // rootGetters['checkout/getShippingMethods'],
         paymentMethods: rootGetters['checkout/getPaymentMethods'],
         paymentDetails: rootGetters['checkout/getPaymentDetails']
       })
