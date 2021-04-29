@@ -16,7 +16,7 @@ const calculateTotals = (shippingMethod: ShippingMethod, paymentMethod: PaymentM
     {
       code: 'grand_total',
       title: i18n.t('Grand total'),
-      value: sumBy(cartItems, (p) => p.qty * p.price_incl_tax + shippingTax)
+      value: (sumBy(cartItems, (p) => p.qty * p.price_incl_tax) + shippingTax)
     }
   ]
 
