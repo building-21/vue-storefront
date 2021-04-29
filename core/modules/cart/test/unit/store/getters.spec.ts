@@ -94,6 +94,9 @@ describe('Cart getters', () => {
 
   it(`totals returns totals including shipping and payment prices having these prices in store
   but no platformTotalSegments`, () => {
+    // NOTE: I don't know why we are adding shippingTax on each product in the cart.
+    // For now we are moving the logic in calculateTotals.ts to do this on the entire
+    // purchase.
     const stateMock = {
       cartItems: [
         { qty: 1, price_incl_tax: 1 },
@@ -116,7 +119,7 @@ describe('Cart getters', () => {
 
     expect(wrapper(cartGetters)).toEqual([
       { 'code': 'subtotal_incl_tax', 'title': 'Subtotal incl. tax', 'value': 5 },
-      { 'code': 'grand_total', 'title': 'Grand total', 'value': 21 },
+      { 'code': 'grand_total', 'title': 'Grand total', 'value': 13 },
       { 'code': 'payment', 'title': 'payment', 'value': 4 },
       { 'code': 'shipping', 'title': 'shipping', 'value': 8 }
     ]);
@@ -158,7 +161,7 @@ describe('Cart getters', () => {
 
     expect(wrapper(cartGetters)).toEqual([
       { 'code': 'subtotal_incl_tax', 'title': 'Subtotal incl. tax', 'value': 5 },
-      { 'code': 'grand_total', 'title': 'Grand total', 'value': 21 },
+      { 'code': 'grand_total', 'title': 'Grand total', 'value': 13 },
       { 'code': 'payment', 'title': 'payment', 'value': 4 },
       { 'code': 'shipping', 'title': 'shipping', 'value': 8 }
     ]);
