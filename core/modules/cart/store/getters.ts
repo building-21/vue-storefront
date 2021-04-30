@@ -48,7 +48,7 @@ const getters: GetterTree<CartState, RootState> = {
   getTotals ({ cartItems, platformTotalSegments }, getters) {
     // const shippingMethod = await getters.getFirstShippingMethod
     // getters.getFirstShippingMethod.resolve().then((shippingMethod) => {
-    return (platformTotalSegments && onlineHelper.isOnline) ? platformTotalSegments : calculateTotals(getters.getShippingMethod, getters.getFirstPaymentMethod, cartItems)
+    return (platformTotalSegments && onlineHelper.isOnline) ? platformTotalSegments : calculateTotals(getters.getFirstShippingMethod, getters.getFirstPaymentMethod, cartItems)
     // });
   },
   getItemsTotalQuantity: ({ cartItems }) => config.cart.minicartCountType === 'items' ? cartItems.length : sumBy(cartItems, p => p.qty),
