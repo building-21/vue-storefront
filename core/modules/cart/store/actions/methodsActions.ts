@@ -15,6 +15,9 @@ const methodsActions = {
       Logger.debug('Skipping payment & shipping methods update as cart has not been changed', 'cart')()
     }
   },
+  async setSelectedShippingMethod ({ getters, rootGetters, commit }, selectedShippingMethod) {
+    commit(types.CART_UPD_SHIPPING, selectedShippingMethod)
+  },
   async setDefaultCheckoutMethods ({ getters, rootGetters, commit }) {
     if (!getters.getShippingMethodCode) {
       commit(types.CART_UPD_SHIPPING, rootGetters['checkout/getDefaultShippingMethod'])
@@ -66,7 +69,12 @@ const methodsActions = {
     await dispatch('checkout/replaceShippingMethods', newShippingMethods, { root: true })
   },
   async syncShippingMethods ({ getters, rootGetters, dispatch }, { forceServerSync = false }) {
-    if (getters.canUpdateMethods && (getters.isTotalsSyncRequired || forceServerSync)) {
+    // We don't use the whole sync-to-the-backend stuff yet. So we are forcing a refresh here
+    // and so every time we'll get new shipping methods. This is useful because when querying
+    // the backend for shipping methods we get the country, so we can return only the shipping
+    // methods that are applicable.
+    let forceIt = true;
+    if (forceIt || (getters.canUpdateMethods && (getters.isTotalsSyncRequired || forceServerSync))) {
       const storeView = currentStoreView()
       Logger.debug('Refreshing shipping methods', 'cart')()
       const shippingDetails = rootGetters['checkout/getShippingDetails']

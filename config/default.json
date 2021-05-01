@@ -761,11 +761,11 @@
   "shipping": {
     "methods": [
       {
-        "method_title": "DPD Courier",
+        "method_title": "Default",
         "method_code": "flatrate",
         "carrier_code": "flatrate",
-        "amount": 4,
-        "price_incl_tax": 5,
+        "amount": 0,
+        "price_incl_tax": 0,
         "default": true,
         "offline": true
       }

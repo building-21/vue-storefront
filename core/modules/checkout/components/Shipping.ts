@@ -171,6 +171,12 @@ export const Shipping = {
     },
     changeShippingMethod () {
       let currentShippingMethod = this.getCurrentShippingMethod()
+
+      //
+      // Important: Now that the shipping method has changed, trigger the update on the cart
+      //
+      this.$store.dispatch('cart/setSelectedShippingMethod', currentShippingMethod)
+
       if (currentShippingMethod) {
         this.shipping = Object.assign(this.shipping, { shippingCarrier: currentShippingMethod.carrier_code })
         this.$bus.$emit('checkout-after-shippingMethodChanged', {

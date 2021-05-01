@@ -92,15 +92,12 @@ const getPaymentMethods = async (): Promise<Task> =>
 
 const getShippingMethods = async (address: any): Promise<Task> =>
   TaskQueue.execute({
-    url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'shippingmethods_endpoint')),
+    url: config.api.url + '/api/cart/shipping-methods',
     payload: {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      mode: 'cors',
-      body: JSON.stringify({
-        address
-      })
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
     },
+    mode: 'cors',
     silent: true
   });
 
