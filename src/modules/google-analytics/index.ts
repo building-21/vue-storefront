@@ -3,6 +3,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { once, isServer } from '@vue-storefront/core/helpers'
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import Vue from 'vue';
+import VueAppInsights from 'vue-application-insights'
 
 const googleAnalyticsStore = {
   namespaced: true,
@@ -11,15 +12,20 @@ const googleAnalyticsStore = {
   }
 }
 
+//
+// NOTE: This is NOT Google Analytics. This uses Application Insights!
+//
 export const GoogleAnalyticsModule: StorefrontModule = function ({ store, router, appConfig }) {
+  if (!isServer) {
+  }
+
   if (appConfig.analytics.id && !isServer) {
     once('__VUE_EXTEND_ANALYTICS__', () => {
-      Vue.use(VueAnalytics, {
+      // Notice the use of VueAppInsights, not GA.
+      Vue.use(VueAppInsights, {
         id: appConfig.analytics.id,
-        router,
-        ecommerce: {
-          enabled: true
-        }
+        trackInitialPageView: true,
+        router
       })
     })
   } else {
@@ -31,22 +37,12 @@ export const GoogleAnalyticsModule: StorefrontModule = function ({ store, router
 
   store.registerModule('google-analytics', googleAnalyticsStore)
 
+  //
+  // We can use the following to send custom events on interesting actions.
+  //
   if (appConfig.analytics.id && !isServer) {
-    Vue.prototype.$bus.$on('order-after-placed', event => {
-      const order = event.order
-      const ecommerce = (Vue as any).$ga.ecommerce
-
-      order.products.forEach(product => {
-        ecommerce.addItem({
-          id: product.id.toString(),
-          name: product.name,
-          sku: product.sku,
-          category: product.category ? product.category[0].name : '',
-          price: product.price.toString(),
-          quantity: product.qty.toString()
-        })
-      })
-      ecommerce.send()
-    })
+    // Vue.prototype.$bus.$on('order-after-placed', event => {
+    //    this.$appInsights.trackEvent("custom_action", { value: 'ok' });
+    // })
   }
 }

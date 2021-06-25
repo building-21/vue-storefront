@@ -19,6 +19,7 @@ import { InitialResourcesModule } from '@vue-storefront/core/modules/initial-res
 
 // import { DeviceModule } from './device/index';
 import { registerModule } from '@vue-storefront/core/lib/modules'
+import { GoogleAnalyticsModule } from './google-analytics'
 
 // TODO:distributed across proper pages BEFORE 1.11
 export function registerClientModules () {
@@ -34,6 +35,7 @@ export function registerClientModules () {
   registerModule(CatalogNextModule)
   registerModule(CompareModule)
   registerModule(BreadcrumbsModule)
+  registerModule(GoogleAnalyticsModule)
   // registerModule(GoogleTagManagerModule)
   // registerModule(AmpRendererModule)
   registerModule(CmsModule)

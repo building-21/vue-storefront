@@ -86,6 +86,7 @@
     "vue": "^2.6.11",
     "vue-analytics": "^5.16.1",
     "vue-apollo": "^3.0.3",
+    "vue-application-insights": "^1.0.7",
     "vue-carousel": "^0.18",
     "vue-gtm": "^2.0.0",
     "vue-i18n": "^8.0.0",
